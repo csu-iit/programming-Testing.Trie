@@ -17,5 +17,19 @@ namespace TrieLib.Tests
             //assert
             Assert.AreEqual(10, trie["first"]);
         }
+
+        [TestMethod]
+        public void AddAnotherDataToTrie()
+        {
+            //arrange
+            var trie = new Trie<int>();
+
+            //act
+            trie.Add("second", 99);
+            trie.Add("first", 10);
+
+            //assert
+            Assert.AreEqual(99, trie["second"]);
+        }
     }
 }

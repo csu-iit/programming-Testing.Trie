@@ -1,17 +1,19 @@
-﻿namespace TrieLib
+﻿using System.Collections.Generic;
+
+namespace TrieLib
 {
     public class Trie<T>
     {
-        private T temp;
+        private readonly Dictionary<string,T> _data = new Dictionary<string, T>();
 
         public void Add(string key, T value)
         {
-            temp = value;
+            _data.Add(key, value);
         }
 
-        public T this[string first]
+        public T this[string key]
         {
-            get { return temp; }
+            get { return _data[key]; }
         }
     }
 }
