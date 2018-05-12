@@ -6,9 +6,16 @@ namespace TrieLib.Tests
     public class Tests
     {
         [TestMethod]
-        public void Test()
+        public void AddDataToTrie()
         {
-            Assert.IsTrue(true);
+            //arrange
+            var trie = new Trie<int>();
+
+            //act
+            trie.Add("first", 10);
+
+            //assert
+            Assert.AreEqual(10, trie["first"]);
         }
     }
 }
