@@ -31,5 +31,17 @@ namespace TrieLib.Tests
             //assert
             Assert.AreEqual(99, trie["second"]);
         }
+
+        [TestMethod]
+        public void ShouldReturnDefaultValueWhenKeyNotFound()
+        {
+            //arrange
+            var trie = new Trie<string>();
+
+            //act
+
+            //assert
+            Assert.AreEqual(default(string), trie["second"]);
+        }
     }
 }

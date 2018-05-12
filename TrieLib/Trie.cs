@@ -13,7 +13,13 @@ namespace TrieLib
 
         public T this[string key]
         {
-            get { return _data[key]; }
+            get
+            {
+                if (_data.ContainsKey(key))
+                    return _data[key];
+                else
+                    return default(T);
+            }   
         }
     }
 }
