@@ -4,22 +4,74 @@ namespace TrieLib
 {
     public class Trie<T>
     {
-        private readonly Dictionary<string,T> _data = new Dictionary<string, T>();
+        private readonly Node<T> root = new Node<T>();
 
         public void Add(string key, T value)
         {
-            _data.Add(key, value);
+            var node = root;
+            foreach (var ch in key)
+            {
+                Node<T> newNode;
+                if (node.Data.ContainsKey(ch))
+                    newNode = node.Data[ch];
+                else
+                {
+                    newNode = new Node<T>();
+                    node.Data.Add(ch, newNode);
+                }
+
+                node = newNode;
+            }
+            node.Value = value;
         }
 
         public T this[string key]
         {
             get
             {
-                if (_data.ContainsKey(key))
-                    return _data[key];
-                else
+                var node = GetNodeByKey(key);
+
+                if (node == null)
                     return default(T);
+
+                return node.Value;
             }   
+        }
+
+        private Node<T> GetNodeByKey(string key)
+        {
+            var node = root;
+            foreach (var ch in key)
+            {
+                if (node.Data.ContainsKey(ch) == false)
+                    return null;
+                else
+                {
+                    node = node.Data[ch];
+                }
+            }
+
+            return node;
+        }
+
+        public IEnumerable<T> GetByPrefix(string prefix)
+        {
+            var node = GetNodeByKey(prefix);
+            return node.GetSubTrieValues();
+        }
+
+        public static Trie<T> LoadFromDb(IDatabaseReader reader)
+        {
+            var data = reader.LoadData<T>();
+
+            var trie = new Trie<T>();
+
+            foreach (var keyValuePair in data)
+            {
+                trie.Add(keyValuePair.Key, keyValuePair.Value);
+            }
+
+            return trie;
         }
     }
 }
